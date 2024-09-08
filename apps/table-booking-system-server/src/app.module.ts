@@ -1,8 +1,10 @@
 import { Module } from "@nestjs/common";
-import { RestaurantModule } from "./restaurant/restaurant.module";
 import { TableModule } from "./table/table.module";
-import { CustomerModule } from "./customer/customer.module";
+import { RestaurantModule } from "./restaurant/restaurant.module";
 import { BookingModule } from "./booking/booking.module";
+import { CustomerModule } from "./customer/customer.module";
+import { TimeSlotModule } from "./timeSlot/timeSlot.module";
+import { ReservationModule } from "./reservation/reservation.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -15,10 +17,12 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 @Module({
   controllers: [],
   imports: [
-    RestaurantModule,
     TableModule,
-    CustomerModule,
+    RestaurantModule,
     BookingModule,
+    CustomerModule,
+    TimeSlotModule,
+    ReservationModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

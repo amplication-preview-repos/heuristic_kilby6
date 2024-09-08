@@ -22,7 +22,9 @@ import {
   Max,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { Reservation } from "../../reservation/base/Reservation";
 import { Restaurant } from "../../restaurant/base/Restaurant";
+import { TimeSlot } from "../../timeSlot/base/TimeSlot";
 
 @ObjectType()
 class Table {
@@ -50,6 +52,15 @@ class Table {
   @IsString()
   @Field(() => String)
   id!: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Reservation],
+  })
+  @ValidateNested()
+  @Type(() => Reservation)
+  @IsOptional()
+  reservations?: Array<Reservation>;
 
   @ApiProperty({
     required: false,
@@ -85,6 +96,15 @@ class Table {
     nullable: true,
   })
   tableNumber!: number | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => [TimeSlot],
+  })
+  @ValidateNested()
+  @Type(() => TimeSlot)
+  @IsOptional()
+  timeSlots?: Array<TimeSlot>;
 
   @ApiProperty({
     required: true,

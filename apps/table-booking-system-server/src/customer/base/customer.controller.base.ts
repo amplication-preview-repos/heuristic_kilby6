@@ -25,6 +25,9 @@ import { CustomerUpdateInput } from "./CustomerUpdateInput";
 import { BookingFindManyArgs } from "../../booking/base/BookingFindManyArgs";
 import { Booking } from "../../booking/base/Booking";
 import { BookingWhereUniqueInput } from "../../booking/base/BookingWhereUniqueInput";
+import { ReservationFindManyArgs } from "../../reservation/base/ReservationFindManyArgs";
+import { Reservation } from "../../reservation/base/Reservation";
+import { ReservationWhereUniqueInput } from "../../reservation/base/ReservationWhereUniqueInput";
 
 export class CustomerControllerBase {
   constructor(protected readonly service: CustomerService) {}
@@ -227,6 +230,101 @@ export class CustomerControllerBase {
   ): Promise<void> {
     const data = {
       bookings: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateCustomer({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Get("/:id/reservations")
+  @ApiNestedQuery(ReservationFindManyArgs)
+  async findReservations(
+    @common.Req() request: Request,
+    @common.Param() params: CustomerWhereUniqueInput
+  ): Promise<Reservation[]> {
+    const query = plainToClass(ReservationFindManyArgs, request.query);
+    const results = await this.service.findReservations(params.id, {
+      ...query,
+      select: {
+        createdAt: true,
+
+        customer: {
+          select: {
+            id: true,
+          },
+        },
+
+        date: true,
+        id: true,
+
+        table: {
+          select: {
+            id: true,
+          },
+        },
+
+        timeSlot: {
+          select: {
+            id: true,
+          },
+        },
+
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/reservations")
+  async connectReservations(
+    @common.Param() params: CustomerWhereUniqueInput,
+    @common.Body() body: ReservationWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      reservations: {
+        connect: body,
+      },
+    };
+    await this.service.updateCustomer({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/reservations")
+  async updateReservations(
+    @common.Param() params: CustomerWhereUniqueInput,
+    @common.Body() body: ReservationWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      reservations: {
+        set: body,
+      },
+    };
+    await this.service.updateCustomer({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/reservations")
+  async disconnectReservations(
+    @common.Param() params: CustomerWhereUniqueInput,
+    @common.Body() body: ReservationWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      reservations: {
         disconnect: body,
       },
     };

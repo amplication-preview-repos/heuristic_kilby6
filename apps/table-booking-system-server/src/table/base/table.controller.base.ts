@@ -25,6 +25,12 @@ import { TableUpdateInput } from "./TableUpdateInput";
 import { BookingFindManyArgs } from "../../booking/base/BookingFindManyArgs";
 import { Booking } from "../../booking/base/Booking";
 import { BookingWhereUniqueInput } from "../../booking/base/BookingWhereUniqueInput";
+import { ReservationFindManyArgs } from "../../reservation/base/ReservationFindManyArgs";
+import { Reservation } from "../../reservation/base/Reservation";
+import { ReservationWhereUniqueInput } from "../../reservation/base/ReservationWhereUniqueInput";
+import { TimeSlotFindManyArgs } from "../../timeSlot/base/TimeSlotFindManyArgs";
+import { TimeSlot } from "../../timeSlot/base/TimeSlot";
+import { TimeSlotWhereUniqueInput } from "../../timeSlot/base/TimeSlotWhereUniqueInput";
 
 export class TableControllerBase {
   constructor(protected readonly service: TableService) {}
@@ -271,6 +277,184 @@ export class TableControllerBase {
   ): Promise<void> {
     const data = {
       bookings: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateTable({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Get("/:id/reservations")
+  @ApiNestedQuery(ReservationFindManyArgs)
+  async findReservations(
+    @common.Req() request: Request,
+    @common.Param() params: TableWhereUniqueInput
+  ): Promise<Reservation[]> {
+    const query = plainToClass(ReservationFindManyArgs, request.query);
+    const results = await this.service.findReservations(params.id, {
+      ...query,
+      select: {
+        createdAt: true,
+
+        customer: {
+          select: {
+            id: true,
+          },
+        },
+
+        date: true,
+        id: true,
+
+        table: {
+          select: {
+            id: true,
+          },
+        },
+
+        timeSlot: {
+          select: {
+            id: true,
+          },
+        },
+
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/reservations")
+  async connectReservations(
+    @common.Param() params: TableWhereUniqueInput,
+    @common.Body() body: ReservationWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      reservations: {
+        connect: body,
+      },
+    };
+    await this.service.updateTable({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/reservations")
+  async updateReservations(
+    @common.Param() params: TableWhereUniqueInput,
+    @common.Body() body: ReservationWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      reservations: {
+        set: body,
+      },
+    };
+    await this.service.updateTable({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/reservations")
+  async disconnectReservations(
+    @common.Param() params: TableWhereUniqueInput,
+    @common.Body() body: ReservationWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      reservations: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateTable({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Get("/:id/timeSlots")
+  @ApiNestedQuery(TimeSlotFindManyArgs)
+  async findTimeSlots(
+    @common.Req() request: Request,
+    @common.Param() params: TableWhereUniqueInput
+  ): Promise<TimeSlot[]> {
+    const query = plainToClass(TimeSlotFindManyArgs, request.query);
+    const results = await this.service.findTimeSlots(params.id, {
+      ...query,
+      select: {
+        createdAt: true,
+        endTime: true,
+        id: true,
+        startTime: true,
+
+        table: {
+          select: {
+            id: true,
+          },
+        },
+
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/timeSlots")
+  async connectTimeSlots(
+    @common.Param() params: TableWhereUniqueInput,
+    @common.Body() body: TimeSlotWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      timeSlots: {
+        connect: body,
+      },
+    };
+    await this.service.updateTable({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/timeSlots")
+  async updateTimeSlots(
+    @common.Param() params: TableWhereUniqueInput,
+    @common.Body() body: TimeSlotWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      timeSlots: {
+        set: body,
+      },
+    };
+    await this.service.updateTable({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/timeSlots")
+  async disconnectTimeSlots(
+    @common.Param() params: TableWhereUniqueInput,
+    @common.Body() body: TimeSlotWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      timeSlots: {
         disconnect: body,
       },
     };

@@ -14,7 +14,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { BookingUpdateManyWithoutTablesInput } from "./BookingUpdateManyWithoutTablesInput";
 import { ValidateNested, IsOptional, IsInt, Min, Max } from "class-validator";
 import { Type } from "class-transformer";
+import { ReservationUpdateManyWithoutTablesInput } from "./ReservationUpdateManyWithoutTablesInput";
 import { RestaurantWhereUniqueInput } from "../../restaurant/base/RestaurantWhereUniqueInput";
+import { TimeSlotUpdateManyWithoutTablesInput } from "./TimeSlotUpdateManyWithoutTablesInput";
 
 @InputType()
 class TableUpdateInput {
@@ -29,6 +31,18 @@ class TableUpdateInput {
     nullable: true,
   })
   bookings?: BookingUpdateManyWithoutTablesInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => ReservationUpdateManyWithoutTablesInput,
+  })
+  @ValidateNested()
+  @Type(() => ReservationUpdateManyWithoutTablesInput)
+  @IsOptional()
+  @Field(() => ReservationUpdateManyWithoutTablesInput, {
+    nullable: true,
+  })
+  reservations?: ReservationUpdateManyWithoutTablesInput;
 
   @ApiProperty({
     required: false,
@@ -67,6 +81,18 @@ class TableUpdateInput {
     nullable: true,
   })
   tableNumber?: number | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => TimeSlotUpdateManyWithoutTablesInput,
+  })
+  @ValidateNested()
+  @Type(() => TimeSlotUpdateManyWithoutTablesInput)
+  @IsOptional()
+  @Field(() => TimeSlotUpdateManyWithoutTablesInput, {
+    nullable: true,
+  })
+  timeSlots?: TimeSlotUpdateManyWithoutTablesInput;
 }
 
 export { TableUpdateInput as TableUpdateInput };

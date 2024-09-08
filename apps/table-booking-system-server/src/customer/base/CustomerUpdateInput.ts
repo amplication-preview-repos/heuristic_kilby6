@@ -19,6 +19,7 @@ import {
   MaxLength,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { ReservationUpdateManyWithoutCustomersInput } from "./ReservationUpdateManyWithoutCustomersInput";
 
 @InputType()
 class CustomerUpdateInput {
@@ -68,6 +69,18 @@ class CustomerUpdateInput {
     nullable: true,
   })
   phoneNumber?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => ReservationUpdateManyWithoutCustomersInput,
+  })
+  @ValidateNested()
+  @Type(() => ReservationUpdateManyWithoutCustomersInput)
+  @IsOptional()
+  @Field(() => ReservationUpdateManyWithoutCustomersInput, {
+    nullable: true,
+  })
+  reservations?: ReservationUpdateManyWithoutCustomersInput;
 }
 
 export { CustomerUpdateInput as CustomerUpdateInput };

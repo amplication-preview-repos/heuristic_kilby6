@@ -15,8 +15,10 @@ import { BookingListRelationFilter } from "../../booking/base/BookingListRelatio
 import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
 import { StringFilter } from "../../util/StringFilter";
+import { ReservationListRelationFilter } from "../../reservation/base/ReservationListRelationFilter";
 import { RestaurantWhereUniqueInput } from "../../restaurant/base/RestaurantWhereUniqueInput";
 import { IntNullableFilter } from "../../util/IntNullableFilter";
+import { TimeSlotListRelationFilter } from "../../timeSlot/base/TimeSlotListRelationFilter";
 
 @InputType()
 class TableWhereInput {
@@ -42,6 +44,18 @@ class TableWhereInput {
     nullable: true,
   })
   id?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => ReservationListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => ReservationListRelationFilter)
+  @IsOptional()
+  @Field(() => ReservationListRelationFilter, {
+    nullable: true,
+  })
+  reservations?: ReservationListRelationFilter;
 
   @ApiProperty({
     required: false,
@@ -76,6 +90,18 @@ class TableWhereInput {
     nullable: true,
   })
   tableNumber?: IntNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => TimeSlotListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => TimeSlotListRelationFilter)
+  @IsOptional()
+  @Field(() => TimeSlotListRelationFilter, {
+    nullable: true,
+  })
+  timeSlots?: TimeSlotListRelationFilter;
 }
 
 export { TableWhereInput as TableWhereInput };

@@ -14,7 +14,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { BookingCreateNestedManyWithoutTablesInput } from "./BookingCreateNestedManyWithoutTablesInput";
 import { ValidateNested, IsOptional, IsInt, Min, Max } from "class-validator";
 import { Type } from "class-transformer";
+import { ReservationCreateNestedManyWithoutTablesInput } from "./ReservationCreateNestedManyWithoutTablesInput";
 import { RestaurantWhereUniqueInput } from "../../restaurant/base/RestaurantWhereUniqueInput";
+import { TimeSlotCreateNestedManyWithoutTablesInput } from "./TimeSlotCreateNestedManyWithoutTablesInput";
 
 @InputType()
 class TableCreateInput {
@@ -29,6 +31,18 @@ class TableCreateInput {
     nullable: true,
   })
   bookings?: BookingCreateNestedManyWithoutTablesInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => ReservationCreateNestedManyWithoutTablesInput,
+  })
+  @ValidateNested()
+  @Type(() => ReservationCreateNestedManyWithoutTablesInput)
+  @IsOptional()
+  @Field(() => ReservationCreateNestedManyWithoutTablesInput, {
+    nullable: true,
+  })
+  reservations?: ReservationCreateNestedManyWithoutTablesInput;
 
   @ApiProperty({
     required: false,
@@ -67,6 +81,18 @@ class TableCreateInput {
     nullable: true,
   })
   tableNumber?: number | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => TimeSlotCreateNestedManyWithoutTablesInput,
+  })
+  @ValidateNested()
+  @Type(() => TimeSlotCreateNestedManyWithoutTablesInput)
+  @IsOptional()
+  @Field(() => TimeSlotCreateNestedManyWithoutTablesInput, {
+    nullable: true,
+  })
+  timeSlots?: TimeSlotCreateNestedManyWithoutTablesInput;
 }
 
 export { TableCreateInput as TableCreateInput };

@@ -15,6 +15,8 @@ import {
   Prisma,
   Table as PrismaTable,
   Booking as PrismaBooking,
+  Reservation as PrismaReservation,
+  TimeSlot as PrismaTimeSlot,
   Restaurant as PrismaRestaurant,
 } from "@prisma/client";
 
@@ -50,6 +52,28 @@ export class TableServiceBase {
         where: { id: parentId },
       })
       .bookings(args);
+  }
+
+  async findReservations(
+    parentId: string,
+    args: Prisma.ReservationFindManyArgs
+  ): Promise<PrismaReservation[]> {
+    return this.prisma.table
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .reservations(args);
+  }
+
+  async findTimeSlots(
+    parentId: string,
+    args: Prisma.TimeSlotFindManyArgs
+  ): Promise<PrismaTimeSlot[]> {
+    return this.prisma.table
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .timeSlots(args);
   }
 
   async getRestaurant(parentId: string): Promise<PrismaRestaurant | null> {

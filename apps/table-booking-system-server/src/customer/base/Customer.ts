@@ -20,6 +20,7 @@ import {
   MaxLength,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { Reservation } from "../../reservation/base/Reservation";
 
 @ObjectType()
 class Customer {
@@ -82,6 +83,15 @@ class Customer {
     nullable: true,
   })
   phoneNumber!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Reservation],
+  })
+  @ValidateNested()
+  @Type(() => Reservation)
+  @IsOptional()
+  reservations?: Array<Reservation>;
 
   @ApiProperty({
     required: true,

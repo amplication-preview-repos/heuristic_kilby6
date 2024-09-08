@@ -22,6 +22,10 @@ import { UpdateTableArgs } from "./UpdateTableArgs";
 import { DeleteTableArgs } from "./DeleteTableArgs";
 import { BookingFindManyArgs } from "../../booking/base/BookingFindManyArgs";
 import { Booking } from "../../booking/base/Booking";
+import { ReservationFindManyArgs } from "../../reservation/base/ReservationFindManyArgs";
+import { Reservation } from "../../reservation/base/Reservation";
+import { TimeSlotFindManyArgs } from "../../timeSlot/base/TimeSlotFindManyArgs";
+import { TimeSlot } from "../../timeSlot/base/TimeSlot";
 import { Restaurant } from "../../restaurant/base/Restaurant";
 import { TableService } from "../table.service";
 @graphql.Resolver(() => Table)
@@ -118,6 +122,34 @@ export class TableResolverBase {
     @graphql.Args() args: BookingFindManyArgs
   ): Promise<Booking[]> {
     const results = await this.service.findBookings(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @graphql.ResolveField(() => [Reservation], { name: "reservations" })
+  async findReservations(
+    @graphql.Parent() parent: Table,
+    @graphql.Args() args: ReservationFindManyArgs
+  ): Promise<Reservation[]> {
+    const results = await this.service.findReservations(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @graphql.ResolveField(() => [TimeSlot], { name: "timeSlots" })
+  async findTimeSlots(
+    @graphql.Parent() parent: Table,
+    @graphql.Args() args: TimeSlotFindManyArgs
+  ): Promise<TimeSlot[]> {
+    const results = await this.service.findTimeSlots(parent.id, args);
 
     if (!results) {
       return [];

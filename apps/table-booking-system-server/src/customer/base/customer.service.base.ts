@@ -10,10 +10,12 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
+
 import {
   Prisma,
   Customer as PrismaCustomer,
   Booking as PrismaBooking,
+  Reservation as PrismaReservation,
 } from "@prisma/client";
 
 export class CustomerServiceBase {
@@ -58,5 +60,16 @@ export class CustomerServiceBase {
         where: { id: parentId },
       })
       .bookings(args);
+  }
+
+  async findReservations(
+    parentId: string,
+    args: Prisma.ReservationFindManyArgs
+  ): Promise<PrismaReservation[]> {
+    return this.prisma.customer
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .reservations(args);
   }
 }
