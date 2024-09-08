@@ -19,6 +19,8 @@ import {
   ValidateNested,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { ReservationBooking } from "../../reservationBooking/base/ReservationBooking";
+import { Seating } from "../../seating/base/Seating";
 import { Table } from "../../table/base/Table";
 
 @ObjectType()
@@ -74,6 +76,24 @@ class Restaurant {
     nullable: true,
   })
   phoneNumber!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => [ReservationBooking],
+  })
+  @ValidateNested()
+  @Type(() => ReservationBooking)
+  @IsOptional()
+  reservationBookings?: Array<ReservationBooking>;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Seating],
+  })
+  @ValidateNested()
+  @Type(() => Seating)
+  @IsOptional()
+  seatings?: Array<Seating>;
 
   @ApiProperty({
     required: false,

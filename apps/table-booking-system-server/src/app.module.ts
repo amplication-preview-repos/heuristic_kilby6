@@ -5,6 +5,14 @@ import { BookingModule } from "./booking/booking.module";
 import { CustomerModule } from "./customer/customer.module";
 import { TimeSlotModule } from "./timeSlot/timeSlot.module";
 import { ReservationModule } from "./reservation/reservation.module";
+import { PersonModule } from "./person/person.module";
+import { SpecialHoursModule } from "./specialHours/specialHours.module";
+import { WeeklyOpeningHoursModule } from "./weeklyOpeningHours/weeklyOpeningHours.module";
+import { TableGroupModule } from "./tableGroup/tableGroup.module";
+import { UserModule } from "./user/user.module";
+import { SeatingModule } from "./seating/seating.module";
+import { DiningPlaceModule } from "./diningPlace/diningPlace.module";
+import { ReservationBookingModule } from "./reservationBooking/reservationBooking.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -23,6 +31,14 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
     CustomerModule,
     TimeSlotModule,
     ReservationModule,
+    PersonModule,
+    SpecialHoursModule,
+    WeeklyOpeningHoursModule,
+    TableGroupModule,
+    UserModule,
+    SeatingModule,
+    DiningPlaceModule,
+    ReservationBookingModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

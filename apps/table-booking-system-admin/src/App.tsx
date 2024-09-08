@@ -29,6 +29,38 @@ import { ReservationList } from "./reservation/ReservationList";
 import { ReservationCreate } from "./reservation/ReservationCreate";
 import { ReservationEdit } from "./reservation/ReservationEdit";
 import { ReservationShow } from "./reservation/ReservationShow";
+import { PersonList } from "./person/PersonList";
+import { PersonCreate } from "./person/PersonCreate";
+import { PersonEdit } from "./person/PersonEdit";
+import { PersonShow } from "./person/PersonShow";
+import { SpecialHoursList } from "./specialHours/SpecialHoursList";
+import { SpecialHoursCreate } from "./specialHours/SpecialHoursCreate";
+import { SpecialHoursEdit } from "./specialHours/SpecialHoursEdit";
+import { SpecialHoursShow } from "./specialHours/SpecialHoursShow";
+import { WeeklyOpeningHoursList } from "./weeklyOpeningHours/WeeklyOpeningHoursList";
+import { WeeklyOpeningHoursCreate } from "./weeklyOpeningHours/WeeklyOpeningHoursCreate";
+import { WeeklyOpeningHoursEdit } from "./weeklyOpeningHours/WeeklyOpeningHoursEdit";
+import { WeeklyOpeningHoursShow } from "./weeklyOpeningHours/WeeklyOpeningHoursShow";
+import { TableGroupList } from "./tableGroup/TableGroupList";
+import { TableGroupCreate } from "./tableGroup/TableGroupCreate";
+import { TableGroupEdit } from "./tableGroup/TableGroupEdit";
+import { TableGroupShow } from "./tableGroup/TableGroupShow";
+import { UserList } from "./user/UserList";
+import { UserCreate } from "./user/UserCreate";
+import { UserEdit } from "./user/UserEdit";
+import { UserShow } from "./user/UserShow";
+import { SeatingList } from "./seating/SeatingList";
+import { SeatingCreate } from "./seating/SeatingCreate";
+import { SeatingEdit } from "./seating/SeatingEdit";
+import { SeatingShow } from "./seating/SeatingShow";
+import { DiningPlaceList } from "./diningPlace/DiningPlaceList";
+import { DiningPlaceCreate } from "./diningPlace/DiningPlaceCreate";
+import { DiningPlaceEdit } from "./diningPlace/DiningPlaceEdit";
+import { DiningPlaceShow } from "./diningPlace/DiningPlaceShow";
+import { ReservationBookingList } from "./reservationBooking/ReservationBookingList";
+import { ReservationBookingCreate } from "./reservationBooking/ReservationBookingCreate";
+import { ReservationBookingEdit } from "./reservationBooking/ReservationBookingEdit";
+import { ReservationBookingShow } from "./reservationBooking/ReservationBookingShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -96,6 +128,62 @@ const App = (): React.ReactElement => {
           edit={ReservationEdit}
           create={ReservationCreate}
           show={ReservationShow}
+        />
+        <Resource
+          name="Person"
+          list={PersonList}
+          edit={PersonEdit}
+          create={PersonCreate}
+          show={PersonShow}
+        />
+        <Resource
+          name="SpecialHours"
+          list={SpecialHoursList}
+          edit={SpecialHoursEdit}
+          create={SpecialHoursCreate}
+          show={SpecialHoursShow}
+        />
+        <Resource
+          name="WeeklyOpeningHours"
+          list={WeeklyOpeningHoursList}
+          edit={WeeklyOpeningHoursEdit}
+          create={WeeklyOpeningHoursCreate}
+          show={WeeklyOpeningHoursShow}
+        />
+        <Resource
+          name="TableGroup"
+          list={TableGroupList}
+          edit={TableGroupEdit}
+          create={TableGroupCreate}
+          show={TableGroupShow}
+        />
+        <Resource
+          name="User"
+          list={UserList}
+          edit={UserEdit}
+          create={UserCreate}
+          show={UserShow}
+        />
+        <Resource
+          name="Seating"
+          list={SeatingList}
+          edit={SeatingEdit}
+          create={SeatingCreate}
+          show={SeatingShow}
+        />
+        <Resource
+          name="DiningPlace"
+          list={DiningPlaceList}
+          edit={DiningPlaceEdit}
+          create={DiningPlaceCreate}
+          show={DiningPlaceShow}
+        />
+        <Resource
+          name="ReservationBooking"
+          list={ReservationBookingList}
+          edit={ReservationBookingEdit}
+          create={ReservationBookingCreate}
+          show={ReservationBookingShow}
         />
       </Admin>
     </div>

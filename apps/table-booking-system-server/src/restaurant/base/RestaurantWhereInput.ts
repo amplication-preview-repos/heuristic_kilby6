@@ -15,6 +15,8 @@ import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
 import { StringFilter } from "../../util/StringFilter";
+import { ReservationBookingListRelationFilter } from "../../reservationBooking/base/ReservationBookingListRelationFilter";
+import { SeatingListRelationFilter } from "../../seating/base/SeatingListRelationFilter";
 import { TableListRelationFilter } from "../../table/base/TableListRelationFilter";
 
 @InputType()
@@ -62,6 +64,30 @@ class RestaurantWhereInput {
     nullable: true,
   })
   phoneNumber?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => ReservationBookingListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => ReservationBookingListRelationFilter)
+  @IsOptional()
+  @Field(() => ReservationBookingListRelationFilter, {
+    nullable: true,
+  })
+  reservationBookings?: ReservationBookingListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => SeatingListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => SeatingListRelationFilter)
+  @IsOptional()
+  @Field(() => SeatingListRelationFilter, {
+    nullable: true,
+  })
+  seatings?: SeatingListRelationFilter;
 
   @ApiProperty({
     required: false,

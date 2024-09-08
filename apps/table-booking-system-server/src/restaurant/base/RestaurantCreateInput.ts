@@ -17,8 +17,10 @@ import {
   IsOptional,
   ValidateNested,
 } from "class-validator";
-import { TableCreateNestedManyWithoutRestaurantsInput } from "./TableCreateNestedManyWithoutRestaurantsInput";
+import { ReservationBookingCreateNestedManyWithoutRestaurantsInput } from "./ReservationBookingCreateNestedManyWithoutRestaurantsInput";
 import { Type } from "class-transformer";
+import { SeatingCreateNestedManyWithoutRestaurantsInput } from "./SeatingCreateNestedManyWithoutRestaurantsInput";
+import { TableCreateNestedManyWithoutRestaurantsInput } from "./TableCreateNestedManyWithoutRestaurantsInput";
 
 @InputType()
 class RestaurantCreateInput {
@@ -57,6 +59,30 @@ class RestaurantCreateInput {
     nullable: true,
   })
   phoneNumber?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => ReservationBookingCreateNestedManyWithoutRestaurantsInput,
+  })
+  @ValidateNested()
+  @Type(() => ReservationBookingCreateNestedManyWithoutRestaurantsInput)
+  @IsOptional()
+  @Field(() => ReservationBookingCreateNestedManyWithoutRestaurantsInput, {
+    nullable: true,
+  })
+  reservationBookings?: ReservationBookingCreateNestedManyWithoutRestaurantsInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => SeatingCreateNestedManyWithoutRestaurantsInput,
+  })
+  @ValidateNested()
+  @Type(() => SeatingCreateNestedManyWithoutRestaurantsInput)
+  @IsOptional()
+  @Field(() => SeatingCreateNestedManyWithoutRestaurantsInput, {
+    nullable: true,
+  })
+  seatings?: SeatingCreateNestedManyWithoutRestaurantsInput;
 
   @ApiProperty({
     required: false,

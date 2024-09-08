@@ -10,9 +10,12 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
+
 import {
   Prisma,
   Restaurant as PrismaRestaurant,
+  ReservationBooking as PrismaReservationBooking,
+  Seating as PrismaSeating,
   Table as PrismaTable,
 } from "@prisma/client";
 
@@ -49,6 +52,28 @@ export class RestaurantServiceBase {
     args: Prisma.RestaurantDeleteArgs
   ): Promise<PrismaRestaurant> {
     return this.prisma.restaurant.delete(args);
+  }
+
+  async findReservationBookings(
+    parentId: string,
+    args: Prisma.ReservationBookingFindManyArgs
+  ): Promise<PrismaReservationBooking[]> {
+    return this.prisma.restaurant
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .reservationBookings(args);
+  }
+
+  async findSeatings(
+    parentId: string,
+    args: Prisma.SeatingFindManyArgs
+  ): Promise<PrismaSeating[]> {
+    return this.prisma.restaurant
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .seatings(args);
   }
 
   async findTables(

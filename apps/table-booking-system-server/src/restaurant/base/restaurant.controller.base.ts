@@ -22,6 +22,12 @@ import { Restaurant } from "./Restaurant";
 import { RestaurantFindManyArgs } from "./RestaurantFindManyArgs";
 import { RestaurantWhereUniqueInput } from "./RestaurantWhereUniqueInput";
 import { RestaurantUpdateInput } from "./RestaurantUpdateInput";
+import { ReservationBookingFindManyArgs } from "../../reservationBooking/base/ReservationBookingFindManyArgs";
+import { ReservationBooking } from "../../reservationBooking/base/ReservationBooking";
+import { ReservationBookingWhereUniqueInput } from "../../reservationBooking/base/ReservationBookingWhereUniqueInput";
+import { SeatingFindManyArgs } from "../../seating/base/SeatingFindManyArgs";
+import { Seating } from "../../seating/base/Seating";
+import { SeatingWhereUniqueInput } from "../../seating/base/SeatingWhereUniqueInput";
 import { TableFindManyArgs } from "../../table/base/TableFindManyArgs";
 import { Table } from "../../table/base/Table";
 import { TableWhereUniqueInput } from "../../table/base/TableWhereUniqueInput";
@@ -145,6 +151,179 @@ export class RestaurantControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.Get("/:id/reservationBookings")
+  @ApiNestedQuery(ReservationBookingFindManyArgs)
+  async findReservationBookings(
+    @common.Req() request: Request,
+    @common.Param() params: RestaurantWhereUniqueInput
+  ): Promise<ReservationBooking[]> {
+    const query = plainToClass(ReservationBookingFindManyArgs, request.query);
+    const results = await this.service.findReservationBookings(params.id, {
+      ...query,
+      select: {
+        createdAt: true,
+        endTime: true,
+        id: true,
+        numberOfPersons: true,
+
+        person: {
+          select: {
+            id: true,
+          },
+        },
+
+        restaurant: {
+          select: {
+            id: true,
+          },
+        },
+
+        startTime: true,
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/reservationBookings")
+  async connectReservationBookings(
+    @common.Param() params: RestaurantWhereUniqueInput,
+    @common.Body() body: ReservationBookingWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      reservationBookings: {
+        connect: body,
+      },
+    };
+    await this.service.updateRestaurant({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/reservationBookings")
+  async updateReservationBookings(
+    @common.Param() params: RestaurantWhereUniqueInput,
+    @common.Body() body: ReservationBookingWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      reservationBookings: {
+        set: body,
+      },
+    };
+    await this.service.updateRestaurant({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/reservationBookings")
+  async disconnectReservationBookings(
+    @common.Param() params: RestaurantWhereUniqueInput,
+    @common.Body() body: ReservationBookingWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      reservationBookings: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateRestaurant({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Get("/:id/seatings")
+  @ApiNestedQuery(SeatingFindManyArgs)
+  async findSeatings(
+    @common.Req() request: Request,
+    @common.Param() params: RestaurantWhereUniqueInput
+  ): Promise<Seating[]> {
+    const query = plainToClass(SeatingFindManyArgs, request.query);
+    const results = await this.service.findSeatings(params.id, {
+      ...query,
+      select: {
+        createdAt: true,
+        id: true,
+
+        restaurant: {
+          select: {
+            id: true,
+          },
+        },
+
+        seatingCapacity: true,
+        tableNumber: true,
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/seatings")
+  async connectSeatings(
+    @common.Param() params: RestaurantWhereUniqueInput,
+    @common.Body() body: SeatingWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      seatings: {
+        connect: body,
+      },
+    };
+    await this.service.updateRestaurant({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/seatings")
+  async updateSeatings(
+    @common.Param() params: RestaurantWhereUniqueInput,
+    @common.Body() body: SeatingWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      seatings: {
+        set: body,
+      },
+    };
+    await this.service.updateRestaurant({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/seatings")
+  async disconnectSeatings(
+    @common.Param() params: RestaurantWhereUniqueInput,
+    @common.Body() body: SeatingWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      seatings: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateRestaurant({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 
   @common.Get("/:id/tables")

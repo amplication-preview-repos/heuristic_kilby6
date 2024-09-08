@@ -17,8 +17,10 @@ import {
   IsOptional,
   ValidateNested,
 } from "class-validator";
-import { TableUpdateManyWithoutRestaurantsInput } from "./TableUpdateManyWithoutRestaurantsInput";
+import { ReservationBookingUpdateManyWithoutRestaurantsInput } from "./ReservationBookingUpdateManyWithoutRestaurantsInput";
 import { Type } from "class-transformer";
+import { SeatingUpdateManyWithoutRestaurantsInput } from "./SeatingUpdateManyWithoutRestaurantsInput";
+import { TableUpdateManyWithoutRestaurantsInput } from "./TableUpdateManyWithoutRestaurantsInput";
 
 @InputType()
 class RestaurantUpdateInput {
@@ -57,6 +59,30 @@ class RestaurantUpdateInput {
     nullable: true,
   })
   phoneNumber?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => ReservationBookingUpdateManyWithoutRestaurantsInput,
+  })
+  @ValidateNested()
+  @Type(() => ReservationBookingUpdateManyWithoutRestaurantsInput)
+  @IsOptional()
+  @Field(() => ReservationBookingUpdateManyWithoutRestaurantsInput, {
+    nullable: true,
+  })
+  reservationBookings?: ReservationBookingUpdateManyWithoutRestaurantsInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => SeatingUpdateManyWithoutRestaurantsInput,
+  })
+  @ValidateNested()
+  @Type(() => SeatingUpdateManyWithoutRestaurantsInput)
+  @IsOptional()
+  @Field(() => SeatingUpdateManyWithoutRestaurantsInput, {
+    nullable: true,
+  })
+  seatings?: SeatingUpdateManyWithoutRestaurantsInput;
 
   @ApiProperty({
     required: false,

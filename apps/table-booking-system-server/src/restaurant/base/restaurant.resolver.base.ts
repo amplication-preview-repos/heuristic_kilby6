@@ -20,6 +20,10 @@ import { RestaurantFindUniqueArgs } from "./RestaurantFindUniqueArgs";
 import { CreateRestaurantArgs } from "./CreateRestaurantArgs";
 import { UpdateRestaurantArgs } from "./UpdateRestaurantArgs";
 import { DeleteRestaurantArgs } from "./DeleteRestaurantArgs";
+import { ReservationBookingFindManyArgs } from "../../reservationBooking/base/ReservationBookingFindManyArgs";
+import { ReservationBooking } from "../../reservationBooking/base/ReservationBooking";
+import { SeatingFindManyArgs } from "../../seating/base/SeatingFindManyArgs";
+import { Seating } from "../../seating/base/Seating";
 import { TableFindManyArgs } from "../../table/base/TableFindManyArgs";
 import { Table } from "../../table/base/Table";
 import { RestaurantService } from "../restaurant.service";
@@ -97,6 +101,36 @@ export class RestaurantResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => [ReservationBooking], {
+    name: "reservationBookings",
+  })
+  async findReservationBookings(
+    @graphql.Parent() parent: Restaurant,
+    @graphql.Args() args: ReservationBookingFindManyArgs
+  ): Promise<ReservationBooking[]> {
+    const results = await this.service.findReservationBookings(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @graphql.ResolveField(() => [Seating], { name: "seatings" })
+  async findSeatings(
+    @graphql.Parent() parent: Restaurant,
+    @graphql.Args() args: SeatingFindManyArgs
+  ): Promise<Seating[]> {
+    const results = await this.service.findSeatings(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 
   @graphql.ResolveField(() => [Table], { name: "tables" })
